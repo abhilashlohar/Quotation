@@ -3,12 +3,7 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 ?>
 <form method="post">
 <div style="border: solid 1px #ccc; margin: auto; width: 80%; padding:10px; background-color: #fff;">
-	<table width="100%">
-		<tr>
-			<td width="50%"><span style="font-size:28px;COLOR:blue;"><b>Fusion</b></span><br/><span style="font-size:20px;COLOR:#EF6D11;"><b>tours</b></span></td>
-			<td width="50%" align="right"><span style="font-size:12px;;COLOR:blue;"><b>www.Fusion.com</b></span></td>
-		</tr>
-	</table>
+	<img src="<?php echo $webroot_path; ?>as/fusion.jpg" />
 	<br/>
 	<div><span style="font-size:15px;COLOR:blue;">Quotation prepared for</span><span style="font-size:15px;COLOR:#EF6D11;"> Fusion Tours</span></div>
 	<table width="100%" border="1" BORDERCOLOR="#eee">
