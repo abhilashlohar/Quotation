@@ -96,6 +96,7 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 	</table>
 	
 	<div class="summernote" id="summernote1"><?php echo $result_terms_conditions[0]["terms_condition"]["code"]; ?> </div>
+	<div class="summernote" id="summernote2"><?php echo $result_terms_conditions[1]["terms_condition"]["code"]; ?> </div>
 	
 	
 	
@@ -135,7 +136,7 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 	
 	
 	<h3>WHY CHOOSE US</h3>
-	<div class="summernote" id="summernote2"><?php echo $result_terms_conditions[1]["terms_condition"]["code"]; ?> </div>
+	<div class="summernote" id="summernote3"><?php echo $result_terms_conditions[2]["terms_condition"]["code"]; ?> </div>
 	
 	<DIV ALIGN="CENTER"><button type="submit" class="btn red form_post" name="submit">GENERATE PDF </button></DIV>
 	<div style="display:none;" id="wait"><img src="/Housingmatters/as/fb_loading.gif"> Please Wait...</div>
@@ -209,6 +210,7 @@ $(document).ready(function() {
 		m_data.append('total',$('input[name=total]').val());
 		m_data.append('summernote1',$('#summernote1').code());
 		m_data.append('summernote2',$('#summernote2').code());
+		m_data.append('summernote3',$('#summernote3').code());
 		
 		var count = $("#url_main div.sub").length;
 		var ar = [];
