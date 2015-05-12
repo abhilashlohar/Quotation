@@ -5,7 +5,10 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 <div style="border: solid 1px #ccc; margin: auto; width: 80%; padding:10px; background-color: #fff;">
 	<img src="<?php echo $webroot_path; ?>as/fusion.jpg" />
 	<br/>
-	<div><span style="font-size:15px;COLOR:blue;">Quotation prepared for</span><span style="font-size:15px;COLOR:#EF6D11;"> Fusion Tours</span></div>
+	<div class="control-group">
+		<span style="font-size:15px;COLOR:blue;">Quotation prepared for</span>
+		<input type="text" class="span5 m-wrap" name="prepared_for" placeholder="Fusion Tours">
+	</div>
 	<table width="100%" border="1" BORDERCOLOR="#eee">
 		<tr>
 			<td width="25%">Reference Number:</td>
@@ -192,6 +195,7 @@ $(document).ready(function() {
 	$('form').submit( function(ev){
 		ev.preventDefault();
 		var m_data = new FormData();
+		m_data.append('prepared_for',$('input[name=prepared_for]').val());
 		m_data.append('no_of_guest',$('input[name=no_of_guest]').val());
 		m_data.append('email_contect',$('input[name=email_contect]').val());
 		m_data.append('no_of_room',$('input[name=no_of_room]').val());

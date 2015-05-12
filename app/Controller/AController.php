@@ -26,6 +26,7 @@ function index(){
 
 function save_form(){
 	$this->layout=null;
+	$prepared_for=$_POST["prepared_for"];
 	$no_of_guest=$_POST["no_of_guest"];
 	$email_contect=$_POST["email_contect"];
 	$no_of_room=$_POST["no_of_room"];
@@ -48,7 +49,7 @@ function save_form(){
 	
 	
 	$this->loadmodel('tour');
-	$this->tour->save(array('no_of_guest' => $no_of_guest,'email_contect' => $email_contect,'no_of_room' => $no_of_room,'date' => $date,'trial_duration' => $trial_duration,'prepared_by' => $prepared_by,'travel_date' => $travel_date,'email_address' => $email_address,'booking_status' => $booking_status,'per_adult' => $per_adult,'total' => $total,'t_c' => $summernote1,'middel' => $summernote2,'last' => $summernote3));
+	$this->tour->save(array('prepared_for' => $prepared_for,'no_of_guest' => $no_of_guest,'email_contect' => $email_contect,'no_of_room' => $no_of_room,'date' => $date,'trial_duration' => $trial_duration,'prepared_by' => $prepared_by,'travel_date' => $travel_date,'email_address' => $email_address,'booking_status' => $booking_status,'per_adult' => $per_adult,'total' => $total,'t_c' => $summernote1,'middel' => $summernote2,'last' => $summernote3));
 	$LastInsertID=(int)$this->tour->getLastInsertID();
 	$r_no=$LastInsertID+1000;
 	$this->tour->updateAll(array('reference_number'=>$r_no),array('id'=>$LastInsertID));
