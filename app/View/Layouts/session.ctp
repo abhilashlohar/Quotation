@@ -244,21 +244,7 @@ $(document).ready(function() {
 </div>
 </div>
 </div>
-	<div class="header navbar navbar-inverse navbar-fixed-top">
-		<!-- BEGIN TOP NAVIGATION BAR -->
-		<div class="navbar-inner hide_at_print">
-			<div class="container-fluid" style="padding-right: 0px;">
-				<!-- BEGIN LOGO -->
-				<a class="brand" href="<?php echo $webroot_path; ?>A/Dashboard">
-				<span>quotation</span>
-				</a>
-				
-				
-				<!-- END TOP NAVIGATION MENU -->	
-			</div>
-		</div>
-		<!-- END TOP NAVIGATION BAR -->
-	</div>
+	
 	<!-- END HEADER -->
 
 	
