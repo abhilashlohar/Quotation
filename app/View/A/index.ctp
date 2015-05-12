@@ -137,7 +137,14 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 	<div class="summernote" id="summernote3"><?php echo $result_terms_conditions[2]["terms_condition"]["code"]; ?> </div>
 	
 	<DIV ALIGN="CENTER"><button type="submit" class="btn red form_post" name="submit">GENERATE PDF </button></DIV>
-	<div style="display:none;" id="wait"><img src="/Housingmatters/as/fb_loading.gif"> Please Wait...</div>
+	<div style="display:none;" id="wait">
+		<div class="alert alert-block alert-info fade in">
+		<h4 class="alert-heading"><img src="/Housingmatters/as/fb_loading.gif">  Info!</h4>
+		<p>
+		Please wait a while, Pdf is preparing...
+		</p>
+		</div>
+	</div>
 </div>
 </form>
 
@@ -239,7 +246,7 @@ $(document).ready(function() {
 		m_data.append( 'itinerary',myJsonString);
 		m_data.append( 'hotel',myJsonString2);
 		
-		$(".form_post").addClass("disabled");
+		//$(".form_post").addClass("disabled");
 		$("#wait").show();
 		
 		$.ajax({
