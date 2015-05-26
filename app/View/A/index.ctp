@@ -3,7 +3,7 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 ?>
 <form method="post">
 <div style="border: solid 1px #ccc; margin: auto; width: 80%; padding:10px; background-color: #fff;">
-	<img src="<?php echo $webroot_path; ?>as/fusion.jpg" />
+	<img src="<?php echo $webroot_path; ?>as/fusion.jpg" style="width: 100%;" />
 	<br/>
 	<div class="control-group">
 		<span style="font-size:15px;COLOR:blue;">Quotation prepared for</span>
