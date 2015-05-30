@@ -109,4 +109,105 @@ function pdf_test(){
 	
 }
 
+
+
+function koncierge_billing(){
+	$this->layout='session';
+	
+	
+	$this->loadmodel('company');
+	$result_company=$this->company->find('all');
+	$this->set('result_company',$result_company);
+	
+	$this->loadmodel('service');
+	$result_service=$this->service->find('all');
+	$this->set('result_service',$result_service);
+	
+	$this->loadmodel('car_type');
+	$result_car_type=$this->car_type->find('all');
+	$this->set('result_car_type',$result_car_type);
+}
+
+function koncierge_billing_add_row(){
+	$this->layout='blank';
+	
+	$q=$this->request->query['q'];
+	$this->set('q',$q);
+	
+	$this->loadmodel('service');
+	$result_service=$this->service->find('all');
+	$this->set('result_service',$result_service);
+	
+	$this->loadmodel('car_type');
+	$result_car_type=$this->car_type->find('all');
+	$this->set('result_car_type',$result_car_type);
+}
+
+function save_koncierge_billing(){
+	$this->layout=null;
+
+	$title=$_POST["title"]; 
+	$company=(int)$_POST["company"];
+	$first_name=$_POST["first_name"];
+	$middle_name=$_POST["middle_name"];
+	$last_name=$_POST["last_name"];
+	$hotel_name=$_POST["hotel_name"];
+	$room_no=(int)$_POST["room_no"];
+	$service_from=$_POST["service_from"];
+	$service_from=date('Y-m-d', strtotime($service_from));
+	$service_to=$_POST["service_to"];
+	$service_to=date('Y-m-d', strtotime($service_to));
+	$no_of_pax=(int)$_POST["no_of_pax"];
+	
+	$service_details=$_POST["service_details"];
+	
+	
+	
+	
+	$toll_tax=(int)$_POST["toll_tax"];
+	$parking=(int)$_POST["parking"];
+	$driver_allowance=$_POST["driver_allowance"];
+	$total=$_POST["total"];
+	$service_tax=$_POST["service_tax"];
+	$grand_total=$_POST["grand_total"];
+	
+	$driver_name=$_POST["driver_name"];
+	$driver_mobile=$_POST["driver_mobile"];
+	
+	$current_date=date("Y-m-d");
+	$current_time=date('h:i:a',time()); 
+	
+	
+	
+	$this->loadmodel('billing');
+	$this->billing->saveAll(array('title' => $title,'company_id' => $company,'first_name' => $first_name,'middle_name' => $middle_name,'last_name' => $last_name,'hotel_name' => $hotel_name,'room_no' => $room_no,'service_period_from' => $service_from,'service_period_to' => $service_to,'no_of_pax' => $no_of_pax,'toll_tax' => $toll_tax,'parking' => $parking,'driver_allowance' => $driver_allowance,'total' => $total,'service_tax' => $service_tax,'grand_total' => $grand_total,'driver_name' => $driver_name,'driver_mobile' => $driver_mobile,'current_date' => $current_date,'current_time' => $current_time));
+	$LastInsertID=(int)$this->billing->getLastInsertID();
+	
+	
+	$service_details = json_decode($service_details, true);
+	foreach($service_details as $child){
+		$service_type=(int)$child[0];
+		$car_type=(int)$child[1];
+		$car_no=$child[2];
+		$amount=$child[3];
+		
+		$this->loadmodel('billing_service');
+		$this->billing_service->saveAll(array('service_type' => $service_type,'car_type' => $car_type,'car_no' => $car_no,'amount' => $amount,'billing_id' => $LastInsertID));
+	}
+	
+	echo "done";
+		
+	
+}
+
+function koncierge_billing_view($id=null){
+	$this->layout='session';
+	$this->set('id',$id);
+	
+	$this->loadmodel('billing');
+	$condition=array('id'=>$id);
+	$result_billing = $this->billing->find('all',array('conditions'=>$condition));
+	$this->set('result_billing',$result_billing);
+}
+
 }?>
