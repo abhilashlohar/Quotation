@@ -86,12 +86,13 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 	<tr>
 		<td width="5%" >1</td>
 		<td width="25%">
-			<select class="span12 m-wrap text_box" name="service_type" data-placeholder="Choose a Category" tabindex="1">
+			<select class="span12 m-wrap text_box" name="service_type" data-placeholder="Choose a Category" tabindex="1" sr_id="1">
 				<option value="">Service</option>
 				<?php foreach($result_service as $data2){ 
 					$id=$data2["service"]["id"];
-					$Service_name=$data2["service"]["name"];  ?>
-					<option value="<?php echo $id; ?>"><?php echo $Service_name; ?></option>
+					$Service_name=$data2["service"]["name"];
+					$Service_amount=$data2["service"]["amount"]; ?>
+					<option value="<?php echo $id; ?>" s_amount="<?php echo $Service_amount; ?>"><?php echo $Service_name; ?></option>
 				<?php } ?>
 			</select>
 		</td>
@@ -106,7 +107,7 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 			</select>
 		</td>
 		<td width="25%"><input type="text" placeholder="Car No." name="car_no" class="m-wrap span12 text_box"></td>
-		<td width="20%" ><input type="text" placeholder="Amount" name="amount" class="m-wrap span12 text_box"></td>
+		<td width="20%" ><input type="text" placeholder="Amount" name="amount" readonly class="m-wrap span12 text_box"></td>
 	</tr>
 </table>
 <table width="100%" border="0">
@@ -124,15 +125,15 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 	</tr>
 	<tr>
 		<td width="80%" style=" text-align: right; ">Total</td>
-		<td width="20%"><input type="text" placeholder="Total" name="total" class="m-wrap span12 text_box"></td>
+		<td width="20%"><input type="text" placeholder="Total" readonly name="total" class="m-wrap span12 text_box"></td>
 	</tr>
 	<tr>
-		<td width="80%" style=" text-align: right; ">Service Tax @ 12.36%</td>
-		<td width="20%"><input type="text" placeholder="Service Tax" name="service_tax" class="m-wrap span12 text_box"></td>
+		<td width="80%" style=" text-align: right; ">Service Tax @ 5.6%</td>
+		<td width="20%"><input type="text" placeholder="Service Tax" readonly name="service_tax" class="m-wrap span12 text_box"></td>
 	</tr>
 	<tr>
 		<td width="80%" style=" text-align: right; "><b>Grand Total</b></td>
-		<td width="20%"><input type="text" placeholder="Grand Total" name="grand_total" class="m-wrap span12 text_box"></td>
+		<td width="20%"><input type="text" placeholder="Grand Total" readonly name="grand_total" class="m-wrap span12 text_box"></td>
 	</tr>
 </table>
 
@@ -151,7 +152,7 @@ Driver Details
 <div style="padding: 13px; background-color: #F0EFEF; text-align: center;">
 <button type="submit" class="btn blue">Submit</button>
 </div>
-<div id="wait"></div>
+<div id="wait" style="display:none;" align="center">Please Wait...</div>
 </form>
 
 </div>
@@ -162,7 +163,7 @@ Driver Details
 $(document).ready(function() {
 	$('form').submit( function(ev){
 		ev.preventDefault();
-		$("#wait").hide();
+		$("#wait").show();
 		var m_data = new FormData();
 		m_data.append('title',$('input[name=title]').val());
 		m_data.append('company',$('select[name=company]').val());
@@ -210,6 +211,7 @@ $(document).ready(function() {
 		}).done(function(response) {
 			$("#wait").html(response);
 			$("#wait").show();
+			window.open("koncierge_billing_view/"+response);
 		});
 		
 	});
@@ -218,12 +220,71 @@ $(document).ready(function() {
 	
 	
 	$(".add_row").bind('click',function(){
+		$(this).text('adding...');
 		var count = $("#service_tbl tr").length;
 		count++;
-		$.get('koncierge_billing_add_row?q='+count, function(data){
-			content= data;
-			$('#service_tbl').append(content);
+		
+		$.ajax({
+			url: "koncierge_billing_add_row?q="+count,
+		}).done(function(response) {
+			$('#service_tbl').append(response);
+			$(".add_row").text('Add Row');
 		});
+		
 	 });
+	 
+	 
+	 $("select[name=service_type]").live('change',function(){
+		var a=$('option:selected', this).attr('s_amount');
+		var c=$(this).attr('sr_id');
+		$("#service_tbl tr:nth-child("+c+") td:nth-child(5) input").val(a);
+	 });
+	 
+	 $("input[name=toll_tax],input[name=parking],input[name=driver_allowance]").live('keyup',function(){
+		calculate();
+	 });
+	 $("select[name=service_type]").live('change',function(){
+		calculate();
+	 });
+	 
+	 
+	 
+	 function calculate(){
+	 var count = $("#service_tbl tr").length;
+		var total_sm=0;
+		for(var i=1;i<=count;i++)
+		{
+			var am=$("#service_tbl tr:nth-child("+i+") input[name=amount]").val();
+			if(am!=""){
+			total_sm=eval(total_sm)+eval(am);
+			}
+		}
+		var toll_tax=$("input[name=toll_tax]").val();
+		if(toll_tax!=""){
+		total_sm=eval(total_sm)+eval(toll_tax);
+		}
+		
+		
+		var parking=$("input[name=parking]").val();
+		if(parking!=""){
+		total_sm=eval(total_sm)+eval(parking);
+		}
+		
+		
+		var driver_allowance=$("input[name=driver_allowance]").val();
+		if(driver_allowance!=""){
+		total_sm=eval(total_sm)+eval(driver_allowance);
+		}
+		
+		$("input[name=total]").val(total_sm);
+		
+		var service_tax=(total_sm*5.6)/100;
+		var service_tax = Math.round(service_tax).toFixed(2);
+		$("input[name=service_tax]").val(service_tax);
+		
+		
+		var g_total=eval(service_tax)+eval(total_sm);
+		$("input[name=grand_total]").val(g_total);
+	 }
 });
 </script>
