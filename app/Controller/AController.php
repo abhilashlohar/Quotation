@@ -167,9 +167,9 @@ function save_koncierge_billing(){
 	$toll_tax=(int)$_POST["toll_tax"];
 	$parking=(int)$_POST["parking"];
 	$driver_allowance=$_POST["driver_allowance"];
-	$total=$_POST["total"];
-	$service_tax=$_POST["service_tax"];
-	$grand_total=$_POST["grand_total"];
+	$total=(int)$_POST["total"];
+	$service_tax=(int)$_POST["service_tax"];
+	$grand_total=(int)$_POST["grand_total"];
 	
 	$driver_name=$_POST["driver_name"];
 	$driver_mobile=$_POST["driver_mobile"];
@@ -195,7 +195,7 @@ function save_koncierge_billing(){
 		$this->billing_service->saveAll(array('service_type' => $service_type,'car_type' => $car_type,'car_no' => $car_no,'amount' => $amount,'billing_id' => $LastInsertID));
 	}
 	
-	echo "done";
+	echo $LastInsertID;
 		
 	
 }
@@ -208,6 +208,37 @@ function koncierge_billing_view($id=null){
 	$condition=array('id'=>$id);
 	$result_billing = $this->billing->find('all',array('conditions'=>$condition));
 	$this->set('result_billing',$result_billing);
+	
+	$this->loadmodel('billing_service');
+	$condition=array('billing_id'=>$id);
+	$result_service = $this->billing_service->find('all',array('conditions'=>$condition));
+	$this->set('result_service',$result_service);
+}
+
+
+
+function fetch_company_name_via_id($id) 
+{
+$this->loadmodel('company');
+$conditions=array("id" => $id);
+$result_com=$this->company->find('all',array('conditions'=>$conditions));
+return $result_com[0]["company"]["company_name"];
+}
+
+function fetch_service_name_via_id($id) 
+{
+$this->loadmodel('service');
+$conditions=array("id" => $id);
+$result_service=$this->service->find('all',array('conditions'=>$conditions));
+return $result_service[0]["service"]["name"];
+}
+
+function fetch_car_name_via_id($id) 
+{
+$this->loadmodel('car_type');
+$conditions=array("id" => $id);
+$result_car_type=$this->car_type->find('all',array('conditions'=>$conditions));
+return $result_car_type[0]["car_type"]["name"];
 }
 
 }?>

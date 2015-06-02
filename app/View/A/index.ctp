@@ -258,7 +258,7 @@ $(document).ready(function() {
 		}).done(function(response) {
 			$("#wait").hide();
 			//alert(response);
-			window.open("http://52.74.43.53/pdf/pdf_new.php?q="+response);
+			window.open("http://localhost/pdf/pdf3.php?q="+response);
 			//window.location.replace("http://localhost/pdf/pdf.php?q="+response.report);
 		});
 		

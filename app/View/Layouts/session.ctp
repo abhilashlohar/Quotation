@@ -36,6 +36,13 @@ $webroot_path=$this->requestAction(array('controller' => 'A', 'action' => 'webro
 <link href="<?php echo $webroot_path; ?>as/bootstrap.min.css" rel="stylesheet">
 <link href="<?php echo $webroot_path; ?>as/animate.css" rel="stylesheet" />
 <link href="<?php echo $webroot_path; ?>as/demo-styles.css" rel="stylesheet" />
+
+<style media="print">
+.hide_at_print {
+	display:none !important;
+}
+</style>
+		
 <!-----js--------------->
 	<script src="<?php echo $webroot_path; ?>assets/js/jquery-1.8.3.min.js"></script>			
 	<script src="<?php echo $webroot_path; ?>assets/breakpoints/breakpoints.js"></script>			
@@ -281,7 +288,7 @@ $(document).ready(function() {
 	
 	<!-- BEGIN FOOTER -->
 	<div class="footer hide_at_print">
-		Growth-Heacker
+		
 		<div class="span pull-right">
 			<span class="go-top"><i class="icon-angle-up"></i></span>
 		</div>
